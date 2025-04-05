@@ -1,23 +1,18 @@
-# Variables
-APP_NAME="tasktracker-cli-$RANDOM"   # Random suffix to avoid name conflicts
-RESOURCE_GROUP="tasktracker-cli-rg"
-PLAN_NAME="tasktracker-cli-plan"
-LOCATION="eastus"  
 
 # Create Resource Group
-az group create --name "tasktracker-cli-rg" --location "eastus"
+az group create --name "tasktracker-cli-rg2" --location "eastus"
 
 # Create App Service Plan (Linux)
-az appservice plan create --name "tasktracker-cli-plan" --resource-group "tasktracker-cli-rg" --sku B1 --is-linux
+az appservice plan create --name "tasktracker-cli-plan2" --resource-group "tasktracker-cli-rg2" --sku B1 --is-linux
 
 # Create Web App
-az webapp create --resource-group "tasktracker-cli-rg" --plan "tasktracker-cli-plan" --name "tasktracker-cli-codecamp-prep" --runtime "PYTHON:3.10"
+az webapp create --resource-group "tasktracker-cli-rg2" --plan "tasktracker-cli-plan2" --name "tasktracker-cli-codecamp-prep2" --runtime "PYTHON:3.10"
 
 #Set startup command
-az webapp config set --resource-group "tasktracker-cli-rg" --name "tasktracker-cli-codecamp-prep" --startup-file "gunicorn --bind=0.0.0.0 --timeout 600 app:app"
+az webapp config set --resource-group "tasktracker-cli-rg2" --name "tasktracker-cli-codecamp-prep2" --startup-file "gunicorn --bind=0.0.0.0 --timeout 600 app:app"
 
 #Zip up the file to prepare for deployment
-zip -r app.zip . -x "venv/*" "__pycache__/*"Compress-Archive -Path * -DestinationPath app.zip -Force -Exclude venv, __pycache__
+zip -r app.zip . -x "venv/*" "__pycache__/*"
 
 #Deploy the app to Azure
-az webapp deployment source config-zip --resource-group "tasktracker-cli-rg" --name "tasktracker-cli-codecamp-prep" --src app.zip
+az webapp deployment source config-zip --resource-group "tasktracker-cli-rg2" --name "tasktracker-cli-codecamp-prep2" --src app.zip
