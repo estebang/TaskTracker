@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>📝 Task Tracker</h1>
+        <form action="/add" method="post">
+            <input type="text" name="title" placeholder="Enter a new task" required>
+            <button type="submit">Add</button>
+        </form>
+
+        <ul>
+            {% for task in tasks %}
+                <li class="{{ 'done' if task.done else '' }}">
+                    {{ loop.index }}. {{ task.title }}
+                    <a href="/complete/{{ loop.index0 }}">[✔]</a>
+                    <a href="/delete/{{ loop.index0 }}">[🗑]</a>
+                </li>
+            {% else %}
+                <li>No tasks yet!</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
